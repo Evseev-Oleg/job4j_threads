@@ -25,10 +25,11 @@ public class Wget2 implements Runnable {
             long startTime = System.currentTimeMillis();
             while ((bytesRead = in.read(dataBuffer)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
-            }
-            long finishTime = System.currentTimeMillis() - startTime;
-            if (finishTime < speed) {
-                Thread.sleep(speed - finishTime);
+                long finishTime = System.currentTimeMillis() - startTime;
+                if (finishTime < speed) {
+                    Thread.sleep(speed - finishTime);
+                }
+                startTime = System.currentTimeMillis();
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -36,11 +37,15 @@ public class Wget2 implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        String file = "https://raw.githubusercontent.com/peterarsentev/course_test/master/pom.xml";
+        String file = args[2];
         String url = args[0];
         int speed = Integer.parseInt(args[1]);
-        Thread wget = new Thread(new Wget2(file, url, speed));
-        wget.start();
-        wget.join();
+        if (file != null && url != null && speed != 0) {
+            Thread wget = new Thread(new Wget2(file, url, speed));
+            wget.start();
+            wget.join();
+        } else {
+            System.out.println("Введите значения");
+        }
     }
 }
