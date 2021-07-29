@@ -22,7 +22,7 @@ public class ParseFileGet {
                     if (filter.test((char)data)) {
                         output.append((char) data);
                     }
-                }
+                } else output.append((char) data);
             }
         } catch (IOException e) {
             e.printStackTrace();
