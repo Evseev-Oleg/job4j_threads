@@ -13,16 +13,14 @@ public class ParseFileGet {
         this.file = file;
     }
 
-    public String getContentWithoutUnicode(int number, Predicate<Character> filter) {
+    public String getContentWithoutUnicode(Predicate<Character> filter) {
         StringBuilder output = new StringBuilder();
         try (InputStream i = new FileInputStream(file)){
             int data;
             while ((data = i.read()) > 0) {
-                if(number != 0) {
                     if (filter.test((char)data)) {
                         output.append((char) data);
                     }
-                } else output.append((char) data);
             }
         } catch (IOException e) {
             e.printStackTrace();
