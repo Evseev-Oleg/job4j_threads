@@ -2,11 +2,11 @@ package ru.job4j.concurrent;
 
 public class User {
     private int id;
-    private String name;
+    private int amount;
 
-    public static User of(String name) {
+    public static User of(int amount) {
         User user = new User();
-        user.name = name;
+        user.amount = amount;
         return user;
     }
 
@@ -18,11 +18,11 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
