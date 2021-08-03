@@ -14,28 +14,15 @@ public class UserStorage {
     private final Map<Integer, Integer> userStorage = new HashMap<>();
 
     public synchronized boolean add(User user) {
-        Integer value = userStorage.get(user.getId());
-        if (value == null) {
-            userStorage.put(user.getId(), user.getAmount());
-            return true;
-        }
-            return false;
+        return userStorage.putIfAbsent(user.getId(), user.getAmount()) == null;
     }
 
     public synchronized boolean update(User user) {
-        if (userStorage.containsKey(user.getId())) {
-            userStorage.put(user.getId(), user.getAmount());
-            return true;
-        }
-        return false;
+        return userStorage.replace(user.getId(), user.getAmount()) != null;
     }
 
     public synchronized boolean delete(User user) {
-        if (userStorage.containsKey(user.getId())) {
-            userStorage.remove(user.getId());
-            return true;
-        }
-        return false;
+        return userStorage.remove(user.getId()) != null;
     }
 
     public synchronized boolean transfer(int fromId, int toId, int amount) {
