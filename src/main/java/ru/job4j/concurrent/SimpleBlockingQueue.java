@@ -21,20 +21,14 @@ public class SimpleBlockingQueue<T> {
         while (queue.size() == limit) {
             wait();
         }
-        if (queue.size() == 0) {
-            notifyAll();
-        }
-        queue.add(value);
+        queue.offer(value);
+        notifyAll();
     }
 
     public synchronized T poll() throws InterruptedException {
         while (queue.size() == 0) {
             wait();
         }
-        if (queue.size() == limit) {
-            notifyAll();
-        }
-
-        return queue.remove();
+        return queue.poll();
     }
 }
