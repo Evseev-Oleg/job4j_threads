@@ -5,7 +5,6 @@ import net.jcip.annotations.ThreadSafe;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
@@ -38,43 +37,4 @@ public class SimpleBlockingQueue<T> {
 
         return queue.remove();
     }
-
-    public static void main(String[] args) throws InterruptedException {
-        SimpleBlockingQueue<Integer> simpleBlockingQueue =
-                new SimpleBlockingQueue<>(10);
-        Thread producer = new Thread(
-                () -> {
-
-                    synchronized (simpleBlockingQueue) {
-                        while (true) {
-                            try {
-                                simpleBlockingQueue.offer(new Random().nextInt(100));
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-        );
-
-        Thread consumer = new Thread(
-                () -> {
-                    synchronized (simpleBlockingQueue) {
-                        while (true) {
-                            try {
-                                System.out.println(simpleBlockingQueue.poll());
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-        );
-
-        producer.start();
-        consumer.start();
-        producer.join();
-        consumer.join();
-    }
-
 }
