@@ -13,10 +13,10 @@ public class CacheTest {
         Cache cache = new Cache();
         Base changed = new Base(1, 0);
         cache.add(changed);
-        Base changed1 = new Base(1,0);
+        Base changed1 = new Base(1, 0);
         changed1.setName("Иван");
         cache.update(changed1);
-        Base changed2 = new Base(1,1);
+        Base changed2 = new Base(1, 1);
         changed2.setName("Коля");
         cache.update(changed2);
         assertThat(cache.get(1).getVersion(), is(2));
