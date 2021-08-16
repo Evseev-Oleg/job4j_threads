@@ -32,4 +32,13 @@ public class CacheTest {
         cache.delete(changed);
         assertNull(cache.get(1));
     }
+
+    @Test(expected = OptimisticException.class)
+    public void whenVersionNotEquals() {
+        Cache cache = new Cache();
+        Base base1 = new Base(1, 0);
+        cache.add(base1);
+        Base base2 = new Base(1, 1);
+        cache.update(base2);
+    }
 }
