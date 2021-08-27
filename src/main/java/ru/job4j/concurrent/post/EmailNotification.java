@@ -19,6 +19,8 @@ public class EmailNotification {
     }
 
     public void close() {
+        pool.shutdown();
+
         while (!pool.isTerminated()) {
             try {
                 Thread.sleep(100);
@@ -26,7 +28,6 @@ public class EmailNotification {
                 e.printStackTrace();
             }
         }
-        pool.shutdown();
     }
 
     public void send(String subject, String body, String email) {
