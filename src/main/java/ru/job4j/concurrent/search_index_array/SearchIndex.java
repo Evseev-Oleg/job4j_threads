@@ -19,6 +19,7 @@ public class SearchIndex<V> extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         System.out.println(Thread.currentThread());
+
         int size = finish - start;
         if (size > 10) {
             int mid = (start + finish) / 2;
@@ -32,11 +33,11 @@ public class SearchIndex<V> extends RecursiveTask<Integer> {
                 return res1 == -1 ? res2 : res1;
             }
         }
-        return linearSort(this.v);
+        return linearSort();
     }
 
-    private int linearSort(V v) {
-        for (int i = 0; i < finish; i++) {
+    private int linearSort() {
+        for (int i = start; i <= finish; i++) {
             if (array[i].equals(v)) {
                 return i;
             }
@@ -45,7 +46,7 @@ public class SearchIndex<V> extends RecursiveTask<Integer> {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        Integer[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
         int found = 90;
         int start = 0;
         int finish = arr.length;
