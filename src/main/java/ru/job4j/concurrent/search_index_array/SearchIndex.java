@@ -45,15 +45,18 @@ public class SearchIndex<V> extends RecursiveTask<Integer> {
         return -1;
     }
 
-    public static void main(String[] args) {
-        Integer[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
-        int found = 90;
-        int start = 0;
-        int finish = arr.length;
-
+    public int search(SearchIndex<V> searchIndex) {
         ForkJoinPool pool = ForkJoinPool.commonPool();
+        return pool.invoke(searchIndex);
+    }
+
+    public static void main(String[] args) {
+        Integer[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+                12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+        int found = 6;
+        int start = 0;
+        int finish = arr.length - 1;
         SearchIndex<Integer> task = new SearchIndex<>(arr, found, start, finish);
-        int res = pool.invoke(task);
-        System.out.println(res);
+        System.out.println(task.search(task));
     }
 }
