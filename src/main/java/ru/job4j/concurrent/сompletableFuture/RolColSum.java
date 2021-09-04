@@ -36,15 +36,7 @@ public class RolColSum {
     public static Sums[] sum(int[][] matrix) {
         Sums[] sums = new Sums[matrix.length];
         for (int i = 0; i < matrix.length; i++) {
-            int sumRow = 0;
-            int sumCol = 0;
-            for (int j = 0; j < matrix[i].length; j++) {
-                sumRow += matrix[i][j];
-                sumCol += matrix[j][i];
-            }
-            sums[i] = new Sums();
-            sums[i].setRowSum(sumRow);
-            sums[i].setColSum(sumCol);
+            sums[i] = searchSums(matrix, i);
         }
         return sums;
     }
@@ -52,8 +44,9 @@ public class RolColSum {
     public static Sums[] asyncSum(int[][] matrix) throws ExecutionException, InterruptedException {
         Sums[] sums = new Sums[matrix.length];
         Map<Integer, CompletableFuture<Sums>> futures = new HashMap<>();
-        for (int k = 0; k < matrix.length; k++) {
-            futures.put(k, getSums(matrix, k));
+        for (int i = 0; i < matrix.length; i++) {
+            int finalI = i;
+            futures.put(i, CompletableFuture.supplyAsync(() -> searchSums(matrix, finalI)));
         }
         for (Integer key : futures.keySet()) {
             sums[key] = futures.get(key).get();
@@ -61,18 +54,16 @@ public class RolColSum {
         return sums;
     }
 
-    public static CompletableFuture<Sums> getSums(int[][] matrix, int index) {
-        return CompletableFuture.supplyAsync(() -> {
-            int sumRow = 0;
-            int sumCol = 0;
-            for (int i = 0; i < matrix.length; i++) {
-                sumRow += matrix[index][i];
-                sumCol += matrix[i][index];
-            }
-            Sums sums = new Sums();
-            sums.setColSum(sumCol);
-            sums.setRowSum(sumRow);
-            return sums;
-        });
+    private static Sums searchSums(int[][] matrix, int index) {
+        int sumRow = 0;
+        int sumCol = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            sumRow += matrix[index][i];
+            sumCol += matrix[i][index];
+        }
+        Sums sums = new Sums();
+        sums.setColSum(sumCol);
+        sums.setRowSum(sumRow);
+        return sums;
     }
 }
