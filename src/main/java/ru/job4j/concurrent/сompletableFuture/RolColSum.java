@@ -65,5 +65,8 @@ public class RolColSum {
         sums.setColSum(sumCol);
         sums.setRowSum(sumRow);
         return sums;
+
+
+
     }
 }
